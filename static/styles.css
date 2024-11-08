@@ -1,0 +1,125 @@
+:root {
+    --color-bg-canvas: #f5f5f5;
+    --color-bg-palette: #f3f9f3;
+    --color-border-canvas: #ff7a7a;
+    --color-border-palette: #7aff7a;
+    --color-bg-word: #ffe;
+    --color-bg-word-hover: #ffa;
+    --color-bg-word-first: #ff0;
+    --color-border-word: #ccf;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.main {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    padding: 10px;
+}
+
+@media (min-width: 600px) {
+    .main {
+        flex-direction: row;
+    }
+}
+
+.word {
+    display: inline-block;
+    padding: 8px 10px;
+    margin: 5px;
+    border: 1px solid var(--color-border-word);
+    border-radius: 8px;
+    background-color: var(--color-bg-word);
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 2px 2px 6px var(--color-shadow);
+}
+
+.word:hover {
+    background-color: var(--color-bg-word-hover);
+    transform: translateY(-2px);
+}
+
+.word.first-discovery {
+    background-color: var(--color-bg-word-first);
+    border-color: #ffc107;
+}
+
+.word::before {
+    content: attr(data-emoji);
+    padding-right: 6px;
+}
+
+.word.draggable {
+    position: absolute;
+}
+
+.palette {
+    background-color: var(--color-bg-palette);
+    padding: 15px;
+    border: 2px solid var(--color-border-palette);
+    border-radius: 8px;
+    margin: 10px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 8px var(--color-shadow);
+}
+
+.canvas {
+    flex: 1;
+    min-width: 66%;
+    min-height: 66%;
+    background-color: var(--color-bg-canvas);
+    border: 2px solid var(--color-border-canvas);
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+    box-shadow: 0px 4px 8px var(--color-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+
+.resolving {
+    animation: pulsating 1s infinite;
+}
+
+@keyframes pulsating {
+    0% {
+        opacity: 100%;
+    }
+    50% {
+        opacity: 50%;
+    }
+}
+
+#game-header {
+    padding: 15px;
+}
+
+#game-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-left: 0;
+    letter-spacing: 1px;
+    font-family: cursive;
+}
+

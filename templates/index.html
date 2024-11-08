@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Craft</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <script src="/static/script.js" defer></script>
+  <script src="https://unpkg.com/drag-drop-touch" defer></script>
+</head>
+<body>
+  <header>
+    <header id="game-header">
+      <h1>Open Craft</h1>
+    </header>
+  </header>
+
+  <main class="main">
+    <section class="canvas" id="canvas" ondragover="allowDrop(event)" ondrop="drop(event)">
+    </section>
+
+    <aside class="palette" id="palette">
+      <p style="text-align: center; color: #666;">
+        Your crafting items will appear here.
+      </p>
+    </aside>
+  </main>
+
+</body>
+</html>
