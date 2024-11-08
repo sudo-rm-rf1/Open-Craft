@@ -222,11 +222,11 @@ if __name__ == '__main__':
     emojis_db = dbm.open('data/emojis.db', 'c')
     prepare_db(ingredient_db, combos_db)
 
-    # print('Performing Checks! (This might take a couple minutes)')
-    # start = datetime.now()
-    # try_combo('fire', 'water')
-    # print("Check complete!")
-    # end = datetime.now()
-    # print('Check performed in: ', end - start)
+    print('Performing Checks! (This might take a couple minutes)')
+    start = datetime.now()
+    try_combo('fire', 'water')
+    print("Check complete!")
+    end = datetime.now()
+    print('Check performed in: ', end - start)
 
     app.run(host='0.0.0.0', port=5000, threaded=False)
