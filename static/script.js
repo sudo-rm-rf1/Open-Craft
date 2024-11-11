@@ -196,3 +196,20 @@ function init() {
 }
 
 document.addEventListener("DOMContentLoaded", init);
+
+const canvas = document.getElementById('canvas');
+
+canvas.addEventListener('mousemove', (e) => {
+  const rect = canvas.getBoundingClientRect();
+  const mouseX = e.clientX - rect.left;
+  const mouseY = e.clientY - rect.top;
+
+  const moveX = (mouseX - rect.width / 2) * 0.02;
+  const moveY = (mouseY - rect.height / 2) * 0.02;
+
+  canvas.style.backgroundPosition = `${moveX}px ${moveY}px`;
+});
+
+canvas.addEventListener('mouseleave', () => {
+  canvas.style.backgroundPosition = '0px 0px';
+});

@@ -16,7 +16,7 @@ MAX_RETRIES = 5
 MODEL_PATH = input("Enter path to model file: ")
 
 llm = models.LlamaCpp(MODEL_PATH, echo=False)
-emoji_dedicated_llm = models.LlamaCpp(MODEL_PATH, echo=False)
+emoji_dedicated_llm = models.LlamaCpp(MODEL_PATH, echo=False, device="cuda:0")
 
 class Formula:
     first_ingredient: str
@@ -50,6 +50,18 @@ base_formulas = [
     Formula('earth', 'earth', 'pressure'),
 ]
 
+
+whatever_formulas = [
+    Formula('planet', 'planet', 'solar system'),
+    Formula('earth', 'life', 'human'),
+    Formula('electricity', 'primordial soup', 'life'),
+    Formula('life', 'land', 'animal'),
+    Formula('life', 'death', 'organic matter'),
+    Formula('bird', 'metal', 'airplane'),
+    Formula('fire', 'stone', 'metal'),
+]
+
+
 secondary_formulas = [
     Formula('mud', 'fire', 'brick'),
     Formula('lava', 'water', 'stone'),
@@ -70,17 +82,15 @@ secondary_formulas = [
     Formula('sea', 'sea', 'ocean'),
 ]
 
-whatever_formulas = [
-    Formula('planet', 'planet', 'solar system'),
-    Formula('earth', 'life', 'human'),
-    Formula('electricity', 'primordial soup', 'life'),
-    Formula('life', 'land', 'animal'),
-    Formula('life', 'death', 'organic matter'),
-    Formula('bird', 'metal', 'airplane'),
-    Formula('fire', 'stone', 'metal'),
-]
-
 formulas = [*base_formulas, *secondary_formulas, *whatever_formulas]
+
+
+def existing_emoji_or_generate(emoji_db, word):
+    if word in emoji_db:
+        return emoji_db[word]
+    emoji = make_emoji(word)
+    emoji_db[word] = emoji
+    return emoji
 
 def make_emoji(word):
     prompt = ""
@@ -111,12 +121,7 @@ def make_emoji(word):
         return "❔"
     return emoji_only
 
-def existing_emoji_or_generate(emoji_db, word):
-    if word in emoji_db:
-        return emoji_db[word]
-    emoji = make_emoji(word)
-    emoji_db[word] = emoji
-    return emoji
+
 
 def prepare_combination_query():
     init_prompt = 'Formulas, dictionary, recipes, alchemy, chemistry, combinations, crafting, NONSENSICAL. <ingredient> + <ingredient> = <combination but different>. Offensive terms allowed.'
@@ -125,6 +130,11 @@ def prepare_combination_query():
     return prepared
 
 PREPARED_COMBINATION_QUERY = prepare_combination_query()
+
+
+def try_combo(first, second):
+    combo, tries = gen_combination(first, second)
+    return f"{first} + {second} = {combo} ({tries} tries)"
 
 def gen_combination(first, second):
     first_ingredient, second_ingredient = sorted([first, second])
@@ -146,10 +156,6 @@ def gen_combination(first, second):
         print("NONSENSICAL!", first, second)
         return None, 0
     return combination, MAX_RETRIES - retries
-
-def try_combo(first, second):
-    combo, tries = gen_combination(first, second)
-    return f"{first} + {second} = {combo} ({tries} tries)"
 
 def existing_or_generate(ingredient_db, combo_db, first, second):
     first_ingredient, second_ingredient = sorted([first, second])
